@@ -1,3 +1,4 @@
+import { bcryptAdapter } from "../../config/bcrypt.adapter";
 import { UserModel } from "../../data/mongo/models/user-model";
 import { RegisterUserDto } from "../../domain/dtos/register-user.dto";
 import { UserEntity } from "../../domain/entities/entity";
@@ -17,6 +18,9 @@ export class AuthService {
     try {
 
       const newUser = new UserModel(registerUserDto);
+
+      // Encriptar la contraseña
+      newUser.password = bcryptAdapter.has(registerUserDto.password);
 
       await newUser.save();
 

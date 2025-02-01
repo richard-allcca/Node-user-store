@@ -10,15 +10,6 @@ export class AuthController {
     public readonly authService: AuthService
   ){}
 
-  private handleError = (error: unknown, res: Response) => {
-    if (error instanceof CustomError) {
-      return res.status(error.statusCode).json({message: error.message});
-    }
-
-    console.error(`${error}`);
-    return res.status(500).json({message: 'Internal server error'});
-  }
-
   register(req: Request, res: Response) {
     const [ error, registerDto ] = RegisterUserDto.create(req.body);
 
@@ -37,5 +28,14 @@ export class AuthController {
   validaEmail(req: Request, res: Response) {
 
     res.json({message: 'validate-email'});
+  }
+
+  private handleError = (error: unknown, res: Response) => {
+    if (error instanceof CustomError) {
+      return res.status(error.statusCode).json({message: error.message});
+    }
+
+    console.error(`${error}`);
+    return res.status(500).json({message: 'Internal server error'});
   }
 }
