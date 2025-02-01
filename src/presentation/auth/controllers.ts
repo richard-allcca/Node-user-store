@@ -8,7 +8,11 @@ export class AuthController {
 
   constructor(
     public readonly authService: AuthService
-  ){}
+  ){
+    this.register = this.register.bind(this);
+    this.loginUser = this.loginUser.bind(this);
+    this.validaEmail = this.validaEmail.bind(this);
+  }
 
   register(req: Request, res: Response) {
     const [ error, registerDto ] = RegisterUserDto.create(req.body);
