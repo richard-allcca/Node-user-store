@@ -1,4 +1,5 @@
 import { bcryptAdapter } from "../../config/bcrypt.adapter";
+import { JwtAdapter } from "../../config/jwt.adapter";
 import { UserModel } from "../../data/mongo/models/user-model";
 import { LoginUserDto } from "../../domain/dtos/login-user.dto";
 import { RegisterUserDto } from "../../domain/dtos/register-user.dto";
@@ -41,19 +42,21 @@ export class AuthService {
     const { email, password } = loginUserDto;
 
     const user = await UserModel.findOne({ email });
-
     if (!user) throw CustomError.badRequest('User not found');
 
     const isValidPassword = bcryptAdapter.compare(password, user.password);
-
     if (!isValidPassword) throw CustomError.badRequest('Invalid password');
+
+    const payload = { email: user.email, _id: user._id };
+    const token = JwtAdapter.generateToken(payload);
+    if (!token) throw CustomError.internalServer('Error generating token');
 
     // Remover el password de la respuesta
     const { password: _, ...userEntity } = UserEntity.fromObject(user);
 
     return {
       user: userEntity,
-      token: 'token'
+      token,
     };
   }
 
