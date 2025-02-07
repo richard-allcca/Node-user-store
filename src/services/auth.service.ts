@@ -1,8 +1,8 @@
 import { bcryptAdapter } from "../config/bcrypt.adapter";
 import { JwtAdapter } from "../config/jwt.adapter";
 import { UserModel } from "../data/mongo/models/user-model";
-import { LoginUserDto } from "../domain/dtos/login-user.dto";
-import { RegisterUserDto } from "../domain/dtos/register-user.dto";
+import { LoginUserDto } from "../domain/dtos/auth/login-user.dto";
+import { RegisterUserDto } from "../domain/dtos/auth/register-user.dto";
 import { UserEntity } from "../domain/entities/entity";
 import { CustomError } from "../domain/errors/custom.error";
 import { sendMailValidationLink } from "../domain/use-cases/SendMailValidationLink";

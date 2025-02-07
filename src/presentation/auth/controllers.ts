@@ -1,9 +1,8 @@
 import { Request, Response } from "express";
-import { LoginUserDto } from "../../domain/dtos/login-user.dto";
-import { RegisterUserDto } from "../../domain/dtos/register-user.dto";
+import { LoginUserDto } from "../../domain/dtos/auth/login-user.dto";
+import { RegisterUserDto } from "../../domain/dtos/auth/register-user.dto";
 import { CustomError } from "../../domain/errors/custom.error";
 import { AuthService } from "../../services/auth.service";
-import { EmailService } from "../../services/email.service";
 
 
 export class AuthController {
@@ -26,7 +25,7 @@ export class AuthController {
   };
 
   // Registro de usuario
-  register(req: Request, res: Response) {
+  register = (req: Request, res: Response) => {
     const [error, registerDto] = RegisterUserDto.create(req.body);
 
     if (error) return res.status(400).json({ message: error });
@@ -34,10 +33,10 @@ export class AuthController {
     this.authService.registerUser(registerDto!)
       .then(user => res.json(user))
       .catch(error => this.handleError(error, res));
-  }
+  };
 
   // Inicio de sesión
-  loginUser(req: Request, res: Response) {
+  loginUser = (req: Request, res: Response) => {
     const [error, loginUserDto] = LoginUserDto.login(req.body);
 
     if (error) return res.status(400).json({ message: error });
@@ -45,14 +44,14 @@ export class AuthController {
     this.authService.loginUser(loginUserDto!)
       .then(user => res.json(user))
       .catch(error => this.handleError(error, res));
-  }
+  };
 
   // Validar email
-  validaEmail(req: Request, res: Response) {
+  validaEmail = (req: Request, res: Response) => {
     const { token } = req.params;
 
     this.authService.validateEmail(token)
       .then(() => res.json({ message: 'Email validated' }))
       .catch(error => this.handleError(error, res));
-  }
+  };
 }

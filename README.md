@@ -46,6 +46,11 @@ Authentication and Authorization
         └── 📁auth              # Autenticación
             └── controllers.ts
             └── routes.ts
+        └── 📁category
+            └── controllers.ts
+            └── routes.ts
+        └── 📁auth.middleware.ts
+            └── controllers.ts
         └── routes.ts
         └── server.ts
     └── 📁services              # Servicios

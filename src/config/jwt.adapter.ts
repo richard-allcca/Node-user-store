@@ -18,14 +18,18 @@ export class JwtAdapter {
 
   }
 
-  static validateToken(token: string) {
+  static validateToken<T>(token: string): Promise<T | null> {
 
     return new Promise((resolve, reject) => {
 
       jwt.verify(token, JWT_SEED, (err, decoded) => {
         if (err) resolve(null);
 
-        resolve(decoded);
+        if (decoded && typeof decoded !== 'string' && '_id' in decoded) {
+          (decoded as jwt.JwtPayload).id = (decoded as jwt.JwtPayload)['_id'];
+        }
+
+        resolve(decoded as T);
       });
     });
   }
