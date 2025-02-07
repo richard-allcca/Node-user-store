@@ -9,19 +9,19 @@ export class CustomError extends Error {
     super(message);
   }
 
-  static badRequest(message: string) {
+  static badRequest = (message: string) => {
     return new CustomError(400, message);
   }
 
-  static unauthorized(message: string) {
+  static unauthorized = (message: string) => {
     return new CustomError(401, message);
   }
 
-  static forbidden(message: string) {
+  static forbidden = (message: string) => {
     return new CustomError(403, message);
   }
 
-  static internalServer(message: string) {
+  static internalServer = (message: string) => {
     return new CustomError(500, message);
   }
 }
