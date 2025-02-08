@@ -1,4 +1,5 @@
 import { CreateCategoryDto } from '../domain/dtos/category/create-category.dto';
+import { PaginationDto } from '../domain/dtos/shared/pagination.dto';
 import { UserEntity } from '../domain/entities/entity';
 import { CustomError } from '../domain/errors/custom.error';
 import { CategoryModel } from './../data/mongo/models/category.model';
@@ -26,30 +27,46 @@ export class CategoryService {
         id: _id,
         name: name,
         available: available,
-      }
+      };
 
       return result;
 
     } catch (error) {
       throw CustomError.internalServer('Error creating category');
     }
-  }
+  };
 
-  public async getAllCategories() {
+  public async getAllCategories(object: PaginationDto) {
+    const { page, limit } = object;
 
     try {
 
-      const categories = await CategoryModel.collection.find().toArray();
+      // NOTE - Se puede usar un promiseAll para hacer las dos consultas en paralelo
 
-      const resultFiltered =  categories.map((category) => {
+      const totalCategories = await CategoryModel.collection.countDocuments({
+        // available: true
+      });
+
+      const categories = await CategoryModel.collection.find({
+        // available: true,
+      }).skip((page - 1) * limit).limit(limit).toArray();
+
+      const categoriesFiltered = categories.map((category) => {
         return {
           id: category._id,
           name: category.name,
           available: category.available,
-        }
+        };
       });
 
-      return resultFiltered;
+      return {
+        page,
+        limit,
+        total: totalCategories,
+        next: totalCategories > (page * limit) ? page + 1 : null,
+        previous: page > 1 ? page - 1 : null,
+        categories: categoriesFiltered,
+      };
 
     } catch (error) {
       throw CustomError.internalServer('Error getting all categories');

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { CustomError } from "../../domain/errors/custom.error";
 import { CreateCategoryDto } from "../../domain/dtos/category/create-category.dto";
 import { CategoryService } from "../../services/category.service";
+import { PaginationDto } from "../../domain/dtos/shared/pagination.dto";
 
 export class CategoryController {
 
@@ -37,8 +38,14 @@ export class CategoryController {
   };
 
   getAllCategories = (req: Request, res: Response) => {
+    const { page = 1, limit = 10 } = req.query;
 
-    this.categoryService.getAllCategories()
+    // Usamos '+' para convertir el string a número
+    const [error, pagination] = PaginationDto.create({ page: +page, limit: +limit });
+
+    if (error) return res.status(400).json({ message: error });
+
+    this.categoryService.getAllCategories(pagination!)
       .then(categories => res.status(200).json(categories))
       .catch(error => this.handleError(res, error));
 
