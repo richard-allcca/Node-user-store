@@ -36,6 +36,23 @@ export class CategoryService {
   }
 
   public async getAllCategories() {
-    return CategoryModel.find();
+
+    try {
+
+      const categories = await CategoryModel.collection.find().toArray();
+
+      const resultFiltered =  categories.map((category) => {
+        return {
+          id: category._id,
+          name: category.name,
+          available: category.available,
+        }
+      });
+
+      return resultFiltered;
+
+    } catch (error) {
+      throw CustomError.internalServer('Error getting all categories');
+    }
   }
 }

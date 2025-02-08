@@ -37,7 +37,6 @@ export class AuthService {
 
       return {
         user: userEntity,
-        token: 'token'
       };
 
     } catch (error) {

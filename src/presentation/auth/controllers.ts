@@ -9,11 +9,7 @@ export class AuthController {
 
   constructor(
     public readonly authService: AuthService,
-  ) {
-    this.register = this.register.bind(this);
-    this.loginUser = this.loginUser.bind(this);
-    this.validaEmail = this.validaEmail.bind(this);
-  }
+  ) {}
 
   private handleError = (error: unknown, res: Response) => {
     if (error instanceof CustomError) {
