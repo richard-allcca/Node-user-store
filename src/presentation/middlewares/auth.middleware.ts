@@ -42,7 +42,7 @@ export class AuthMiddleware {
 
     } catch (error) {
       console.error(`${error}`);
-      return new CustomError(500,'Internal server error');
+      return new CustomError(500,'Internal server error - validateJWT');
     }
   }
 }

@@ -30,4 +30,12 @@ const userSchema = new Schema({
   }
 });
 
+// NOTE - Se puede usar una función normal para no perder el scope de this
+// Aquí filtramos los campos que no queremos mostrar en la respuesta
+userSchema.methods.toJSON = function() {
+  const { __v, _id, password, ...user } = this.toObject();
+  user.uid = _id;
+  return user;
+}
+
 export const UserModel = mongoose.model('User', userSchema);
