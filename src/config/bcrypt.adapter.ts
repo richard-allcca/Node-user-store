@@ -4,7 +4,7 @@ import { compareSync, genSaltSync, hashSync } from "bcryptjs";
 export const bcryptAdapter = {
 
   // Encripta la contraseña ingresada por el usuario.
-  has: (password: string) => {
+  hash: (password: string) => {
     const salt = genSaltSync(10);
     return hashSync(password, salt);
   },

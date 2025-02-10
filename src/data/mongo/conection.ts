@@ -25,4 +25,8 @@ export class MongoDataBase {
       throw error;
     }
   }
+
+  static async close() {
+    await mongoose.connection.close();
+  }
 }

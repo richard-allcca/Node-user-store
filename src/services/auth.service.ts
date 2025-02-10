@@ -24,7 +24,7 @@ export class AuthService {
       const newUser = new UserModel(registerUserDto);
 
       // Encriptar la contraseña
-      newUser.password = bcryptAdapter.has(registerUserDto.password);
+      newUser.password = bcryptAdapter.hash(registerUserDto.password);
 
       // Guardar el nuevo usuario
       await newUser.save();
