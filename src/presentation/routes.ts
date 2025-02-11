@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import { AuthRoutes } from './auth/routes';
 import { CategoryRoutes } from './category/routes';
-import { ProductRoutes } from './products/routers';
+import { ProductRoutes } from './products/routes';
+import { FileUploadRouter } from './file-upload/routes';
+import { ImagesRoutes } from './images/routes';
 
 
 export class AppRoutes {
@@ -14,6 +16,8 @@ export class AppRoutes {
     router.use('/api/auth', AuthRoutes.routes );
     router.use('/api/categories', CategoryRoutes.routes );
     router.use('/api/products', ProductRoutes.routes );
+    router.use('/api/upload', FileUploadRouter.routes );
+    router.use('/api/images', ImagesRoutes.routes );
 
     return router;
   }
