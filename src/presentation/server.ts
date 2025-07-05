@@ -45,6 +45,7 @@ export class Server {
       res.sendFile(indexPath);
     });
 
+    // Start server
     this.serverListener = this.app.listen(this.port, () => {
       console.log(`Server running on port ${ this.port }`);
     });
