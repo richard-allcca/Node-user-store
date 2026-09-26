@@ -5,7 +5,7 @@ API desarrollada con Node.js, TypeScript, Express y MongoDB. Incluye registro e 
 ## Requisitos
 
 - Node.js y npm
-- MongoDB local o accesible desde la aplicación. Docker Compose puede iniciar MongoDB para desarrollo.
+- MongoDB 8.0 local o accesible desde la aplicación. Docker Compose puede iniciarlo para desarrollo.
 - Una cuenta de correo compatible con Nodemailer para el envío de enlaces de validación.
 
 ## Configuración
@@ -46,13 +46,15 @@ API desarrollada con Node.js, TypeScript, Express y MongoDB. Incluye registro e 
    docker compose up -d mongo-db
    ```
 
-   Con las credenciales definidas en `docker-compose.yml`, la URI local debe autenticar contra la base `admin`, por ejemplo:
+   Con las credenciales de desarrollo definidas en `docker-compose.yml`, la URI local debe autenticar contra la base `admin`:
 
    ```text
    mongodb://mongo-user:123456@localhost:27017/mystore?authSource=admin
    ```
 
-   Configura esa URI en `MONGO_URL` y `mystore` en `MONGO_DB_NAME`. Los datos se conservan en el directorio `mongo/`. Para detener el contenedor: `docker compose down`.
+   Configura esa URI en `MONGO_URL` y `mystore` en `MONGO_DB_NAME`. El usuario y la contraseña del ejemplo solo son adecuados para desarrollo local.
+
+   Los archivos de MongoDB se guardan en el directorio `mongo/` y se conservan al detener el contenedor con `docker compose down`.
 
 ## Comandos
 
